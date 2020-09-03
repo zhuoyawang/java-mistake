@@ -46,6 +46,7 @@ public class ConcurrentHashMapMisuseController {
      * 在使用concurrentHashMap时，不代表它的多个操作之间状态是一致的，是没有其他线程在同时操作。如果需要保证的话，要加锁。
      * 例如 size、isEmpty、containsValue等聚合方法，在并发情况下会反应conCurrentHashMap的中间状态。所以在并发情况下，这些方法只可以参考，而不可以控制流程
      * putAll这样的聚合方法，也不能确保原子性，在putAll的过程中，有可能获取到部分数据
+     * stream.parallel()保证流的并发
      *
      * @return
      * @throws InterruptedException
