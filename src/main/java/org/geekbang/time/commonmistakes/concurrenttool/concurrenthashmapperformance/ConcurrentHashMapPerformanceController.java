@@ -66,6 +66,19 @@ public class ConcurrentHashMapPerformanceController {
         return freqs;
     }
 
+
+    /**
+     * 使用ConcurrentHashMap的原子性方法computeIfAbsent来做复合逻辑操作，判断key是否存在value,
+     * 如果不存在，则把Lambda表达式运行后的结果放入Map作为Value,也就是新建一个LongAddr对象，最后返回Value
+     *
+     *
+     * 由于computeIfAbsent方法返回的Value是LongAdder,是一个线程安全的累加器，因此可以直接调用其increment进行累加。
+     *
+     *
+     * 高效的原因是：java自带的Unsafe实现的CAS.它在虚拟机层面确保了写入数据的原子性，比加锁的效率高的多。
+     */
+
+
     private Map<String, Long> gooduse() throws InterruptedException {
         ConcurrentHashMap<String, LongAdder> freqs = new ConcurrentHashMap<>(ITEM_COUNT);
         ForkJoinPool forkJoinPool = new ForkJoinPool(THREAD_COUNT);
