@@ -15,6 +15,11 @@ import java.util.stream.IntStream;
 @RestController
 @RequestMapping("threadpooloom")
 @Slf4j
+/**
+ * 我们需要根据自己的场景，并发情况来评估线程池的几个核心参数，包括核心线程数、最大线程数、线程回收策略、工作队列的类型、以及拒绝策略等等。
+ * 要起一个有意义的线程名称
+ * 通过加监控来观察线程池的状态。
+ */
 public class ThreadPoolOOMController {
 
     private void printStats(ThreadPoolExecutor threadPool) {
@@ -29,6 +34,12 @@ public class ThreadPoolOOMController {
         }, 0, 1, TimeUnit.SECONDS);
     }
 
+
+    /**
+     * newFixedThreadPool,线程池的工作队列是直接new了一个LinkedBlockingQueue,
+     * 默认构造方法的LinkedBlockingQueue是一个Integer.MAX_VALUE长度的队列，可以认为是无界的
+     *
+     */
     @GetMapping("oom1")
     public void oom1() throws InterruptedException {
 
@@ -51,6 +62,11 @@ public class ThreadPoolOOMController {
         threadPool.awaitTermination(1, TimeUnit.HOURS);
     }
 
+    /**
+     * newCachedThreadPool线程池的最大线程数是Integer.MAX_VALUE,可以认为是没有上限的，而其工作队列SynchronousQueue是一个没有存储空间的阻塞队列。
+     * 意味着，只要有请求到来，就必须要有一条工作线程来处理，如果当前没有空闲的线程就再创建一条新的。
+     * @throws InterruptedException
+     */
     @GetMapping("oom2")
     public void oom2() throws InterruptedException {
 
