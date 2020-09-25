@@ -29,6 +29,6 @@ public class FeignAndRibbonController {
 
     @PostMapping("/server")
     public void server() throws InterruptedException {
-        TimeUnit.MINUTES.sleep(10);
+        TimeUnit.MINUTES.sleep(1);
     }
 }

@@ -9,6 +9,12 @@ import javax.annotation.PostConstruct;
 
 @Service
 @Slf4j
+
+/**
+ * Transactional生效原则：
+ * 1.除非特殊配置（比如使用AspectJ静态织入实现AOP,否则只有定义在public方法上的@Transactional才能生效）Spring默认通过动态代理的方式实现AOP,对目标方法进行增强。
+ * 2.必须通过代理过的类从外部调用目标方法才能生效（注解是加给类的，不是加给方法的）
+ */
 public class UserService {
     @Autowired
     private UserRepository userRepository;

@@ -12,6 +12,15 @@ import java.nio.file.Paths;
 
 @Service
 @Slf4j
+/**
+ * 会有一些情况异常出现了也不会回滚
+ * 1.只有异常传播出了标记了@Transactional注解的方法，事务才能回滚。
+ * 2.默认情况下，出现RuntimeException(非受检异常)或Error的时候，Spring才会回滚事务
+ *
+ * 解决方法
+ * 1. createUserRight1 手动让指定的异常都进行回滚（来把捕获的异常都进行回滚）
+ * 2. createUserRight2 在注解中声明，期望遇到所有的Exception都回滚事务（来突破默认不回滚受检异常的限制）
+ */
 public class UserService {
     @Autowired
     private UserRepository userRepository;
